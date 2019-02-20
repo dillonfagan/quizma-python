@@ -12,27 +12,22 @@ class Application(Frame):
         self.show_welcome_frame()
     
     def show_welcome_frame(self):
-        self.open_file_label = Label(self, text='Open a quiz file.')
-        self.open_file_label.pack()
-
-        self.open_button = Button(self, text='Choose file', command=self.open_quiz_file)
-        self.open_button.pack()
+        self.open_file_label = Label(self, text='Open a quiz file.').pack()
+        self.open_button = Button(self, text='Choose file', command=self.open_quiz_file).pack()
     
     def show_quiz_frame(self):
-        self.pack_forget()
-        self.pack()
+        for w in self.pack_slaves():
+            w.destroy()
 
         self.question_label_text = StringVar()
         self.question_label_text.set(self.questions[-1].text)
 
-        self.question_label = Label(self, textvariable=self.question_label_text)
-        self.question_label.pack()
+        self.question_label = Label(self, textvariable=self.question_label_text).pack()
 
         self.proceed_button_text = StringVar()
         self.proceed_button_text.set('Next')
 
-        self.proceed_button = Button(self, textvariable=self.proceed_button_text)
-        self.proceed_button.pack()
+        self.proceed_button = Button(self, textvariable=self.proceed_button_text).pack()
 
     def open_quiz_file(self):
         filename = filedialog.askopenfilename(initialdir='/', title='Choose file', filetypes=(("markdown files","*.md"),("all files","*.*")))
