@@ -1,17 +1,27 @@
 #!/usr/bin/env python
 from tkinter import *
+from tkinter import filedialog
 from question import Question
 
 class Application(Frame):
     def __init__(self, master=Tk()):
         Frame.__init__(self, master)
         master.title('Quizma')
-        master.geometry('300x200')
+        master.geometry('500x300')
         self.pack()
-        self.load_quiz('example.md')
-        self.create_widgets()
+        self.show_welcome_frame()
     
-    def create_widgets(self):
+    def show_welcome_frame(self):
+        self.open_file_label = Label(self, text='Open a quiz file.')
+        self.open_file_label.pack()
+
+        self.open_button = Button(self, text='Choose file', command=self.open_quiz_file)
+        self.open_button.pack()
+    
+    def show_quiz_frame(self):
+        self.pack_forget()
+        self.pack()
+
         self.question_label_text = StringVar()
         self.question_label_text.set(self.questions[-1].text)
 
@@ -23,6 +33,11 @@ class Application(Frame):
 
         self.proceed_button = Button(self, textvariable=self.proceed_button_text)
         self.proceed_button.pack()
+
+    def open_quiz_file(self):
+        filename = filedialog.askopenfilename(initialdir='/', title='Choose file', filetypes=(("markdown files","*.md"),("all files","*.*")))
+        self.load_quiz(filename)
+        self.show_quiz_frame()
     
     def load_quiz(self, filename):
         self.quiz_title = ''
