@@ -44,7 +44,11 @@ class Application(Frame):
                     self.questions.append(q)
                 elif line.startswith('-'):
                     q = self.questions[-1]
-                    q.answers.append(line.replace('-', ''))
+                    if line.startswith('- A:'):
+                        q.answers.append(line.replace('- A:', ''))
+                        q.correct_answer_index = len(q.answers) - 1
+                    else:
+                        q.answers.append(line.replace('-', ''))
                 elif line.startswith('#'):
                     self.quiz_title = line.replace('#', '')
 
