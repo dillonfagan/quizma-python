@@ -32,11 +32,9 @@ class Application(Frame):
                 if line.startswith('##'):
                     q = Question(line.replace('##', ''))
                     self.questions.append(q)
-                    continue
                 elif line.startswith('-'):
                     q = self.questions[-1]
                     q.answers.append(line.replace('-', ''))
-                    continue
                 elif line.startswith('#'):
                     self.quiz_title = line.replace('#', '')
 
