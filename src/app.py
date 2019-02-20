@@ -20,14 +20,22 @@ class Application(Frame):
             w.destroy()
 
         self.question_label_text = StringVar()
-        self.question_label_text.set(self.questions[-1].text)
+        self.question_label_text.set(self.questions[self.question_index].text)
 
         self.question_label = Label(self, textvariable=self.question_label_text).pack()
 
         self.proceed_button_text = StringVar()
         self.proceed_button_text.set('Next')
 
-        self.proceed_button = Button(self, textvariable=self.proceed_button_text).pack()
+        self.proceed_button = Button(self, textvariable=self.proceed_button_text, command=self.present_next_question).pack()
+    
+    def present_next_question(self):
+        self.question_index += 1
+        self.question_label_text.set(self.questions[self.question_index].text)
+
+        if self.question_index >= len(self.questions) - 1:
+            self.proceed_button_text.set('Finish')
+            self.proceed_button.command = quit
 
     def open_quiz_file(self):
         filename = filedialog.askopenfilename(initialdir='/', title='Choose file', filetypes=(("markdown files","*.md"),("all files","*.*")))
@@ -51,6 +59,7 @@ class Application(Frame):
                         q.answers.append(line.replace('-', ''))
                 elif line.startswith('#'):
                     self.quiz_title = line.replace('#', '')
+        self.question_index = 0
 
 
 app = Application()
