@@ -9,16 +9,16 @@ class Application(Frame):
         master.title('Quizma')
         master.geometry('500x300')
         self.pack()
-        self.show_welcome_frame()
+        self.show_welcome_layout()
     
-    def show_welcome_frame(self):
+    def show_welcome_layout(self):
         self.open_file_label = Label(self, text='Open a quiz file.')
         self.open_file_label.pack()
 
         self.open_button = Button(self, text='Choose file', command=self.open_quiz_file)
         self.open_button.pack()
     
-    def show_quiz_frame(self):
+    def show_quiz_layout(self):
         for w in self.pack_slaves():
             w.destroy()
 
@@ -45,7 +45,7 @@ class Application(Frame):
     def open_quiz_file(self):
         filename = filedialog.askopenfilename(initialdir='/', title='Choose file', filetypes=(("markdown files","*.md"),("all files","*.*")))
         self.load_quiz(filename)
-        self.show_quiz_frame()
+        self.show_quiz_layout()
     
     def load_quiz(self, filename):
         self.quiz_title = ''
